@@ -1,6 +1,6 @@
 #include "q.h"
 
-Queue* queue = InitQueue(NULL);
+Queue* queue; // main thread queue
 
 // creates a thread stack and its to the queue
 void start_thread(void (*function)(void)) {
@@ -23,6 +23,6 @@ void yield() {
   ucontext_t prev = queue->head->context; // stores current thread context
   RotateQueue(queue); // moves current thread to back of queue and shifts queue forwards
   ucontext_t next = queue->head->context; // stores new thread context at head of queue
-  swapcontext(prev, next); // swap the context, from previous thread to new thread at head of queue
+  swapcontext(&prev, &next); // swap the context, from previous thread to new thread at head of queue
 }
 
