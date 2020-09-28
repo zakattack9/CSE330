@@ -3,39 +3,74 @@
 
 #pragma warning(disable: 4996) // for Visual Studio
 
-struct qElement {
+typedef struct qElement {
   int payload;
-  qElement* next;
-};
+  struct qElement* next;
+} qElement;
+
+typedef struct Queue {
+  qElement* head;
+} Queue;
 
 // function forward declarations
-qElement* newItem();
-qElement* InitQueue(qElement* head);
-void AddQueue(int payload);
+qElement* NewItem(int payload);
+Queue* InitQueue(qElement* qHead);
+void AddQueue(Queue* queue, qElement* qEl);
+qElement* DelQueue(Queue* queue);
+void RotateQueue(Queue* queue);
+void PrintQueue(Queue* queue);
+int EmptyQueue(Queue* queue);
 
-// global vars
-qElement* qHead;
-
-qElement* newItem() {
-  qElement* q = malloc(sizeof(qElement));
-  return q;
+qElement* NewItem(int payload) {
+  qElement* qEl = (qElement*) malloc(sizeof(qElement));
+  qEl->payload = payload;
+  qEl->next = NULL;
+  return qEl;
 }
 
-qElement* InitQueue() {
-  qHead = malloc(sizeof(qElement));
-  qHead->payload = 0;
-  qHead->next = NULL;
+Queue* InitQueue(qElement* qHead) {
+  Queue* queue = (Queue*) malloc(sizeof(Queue));
+  queue->head = qHead;
+  return queue;
 }
 
-void AddQueue(int payload) {
-  qElement* q = malloc(sizeof(qElement));
-  q->payload = payload;
-
-  qElement* currQEl = head;
-  while (currQEl->next != NULL) {
-    currQEl = currQEl->next;
+void AddQueue(Queue* queue, qElement* qEl) {
+  if (!EmptyQueue(queue)) {
+    qElement* currQEl = queue->head;
+    while (currQEl->next != NULL) {
+      currQEl = currQEl->next;
+    }
+    qEl->next = NULL;
+    currQEl->next = qEl;
   }
-  currQEl->next = q;
 }
 
-void DelQueue(qElement* )
+qElement* DelQueue(Queue* queue) {
+  if (!EmptyQueue(queue)) {
+    qElement* delQEl = queue->head;
+    queue->head = queue->head->next;
+    return delQEl;
+  }
+}
+
+void RotateQueue(Queue* queue) {
+  if (!EmptyQueue(queue)) {
+    qElement* delQEl = DelQueue(queue);
+    AddQueue(queue, delQEl);
+  }
+}
+
+void PrintQueue(Queue* queue) {
+  if (!EmptyQueue(queue)) {
+    qElement* temp = queue->head;
+    while(temp != NULL) {
+      printf("PAYLOAD: %d\n", temp->payload);
+      temp = temp->next;
+    }
+  }
+}
+
+int EmptyQueue(Queue* queue) {
+  if (queue->head == NULL) return 1;
+  else return 0;
+}
