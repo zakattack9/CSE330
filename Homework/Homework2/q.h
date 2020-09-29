@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "TCB.h"
+#include "tcb.h"
 
 #pragma warning(disable: 4996) // for Visual Studio
 
