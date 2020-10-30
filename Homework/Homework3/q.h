@@ -53,11 +53,6 @@ void RotateQueue(Queue* queue) {
   }
 }
 
-int isQueueEmpty(Queue* queue) {
-  if (queue->head == NULL) return 1;
-  else return 0;
-}
-
 void PrintQueue(Queue* queue) {
   TCB_t* temp = queue->head;
   while(temp->next) {
@@ -65,4 +60,9 @@ void PrintQueue(Queue* queue) {
     temp = temp->next;
   }
   printf("%d\n", temp->threadID);
+}
+
+int isQueueEmpty(Queue* queue) {
+  if (queue->head == NULL) return 1;
+  else return 0;
 }
