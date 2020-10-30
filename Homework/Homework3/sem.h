@@ -20,6 +20,7 @@ void P(Sem* semaphore) {
 		} else if (delQEl->threadID < 0) {
 			printf("\nConsumer %d is waiting\n", -delQEl->threadID);
 		}
+    // PrintQueue(RunQ);
     AddQueue(semaphore->SemQ, delQEl);
     swapcontext(&(delQEl->context), &(RunQ->head->context)); // must do swapcontext since yield would rotate the new thread to the back of queue
   } else {
@@ -34,7 +35,5 @@ void V(Sem* semaphore) {
     TCB_t* delQEl = DelQueue(semaphore->SemQ);
     AddQueue(RunQ, delQEl);
   }
-  // if (isQueueEmpty(RunQ)) exit(1); // an empty RunQ indicates that all producers or consumers are blocked
-  // else yield(); // call yield since no items were deleted from head of RunQ and execute next thread
-  yield();
+  // yield(); // call yield since no items were deleted from head of RunQ and execute next thread
 }
