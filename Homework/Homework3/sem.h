@@ -21,8 +21,9 @@ void P(Sem* semaphore) {
       } else if (item->threadID < 0) {
         printf("\nConsumer %d is waiting\n", -item->threadID);
       }
-      // PrintQueue(RunQ);
+
       AddQueue(semaphore->SemQ, item);
+      if (isQueueEmpty(RunQ)) exit(0);
       swapcontext(&(item->context), &(RunQ->head->context)); // must do swapcontext since yield would rotate the new thread to the back of queue
     } else {
       semaphore->val--;
@@ -37,5 +38,4 @@ void V(Sem* semaphore) {
     AddQueue(RunQ, item);
   }
   semaphore->val++;
-  // yield(); // call yield since no items were deleted from head of RunQ and execute next thread
 }

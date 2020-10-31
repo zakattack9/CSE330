@@ -45,10 +45,14 @@ void producer(int threadID) {
       buffer[in] = threadID;
     }
     in = ++in % BUFFER_SIZE;
-    // PrintQueue(RunQ);
     
     V(full);
     yield();
+  }
+
+  TCB_t* item = DelQueue(RunQ);
+  if (!isQueueEmpty(RunQ)) {
+    swapcontext(&(item->context), &(RunQ->head->context));
   }
 }
 
@@ -61,9 +65,13 @@ void consumer(int threadID) {
       buffer[out] = 0; // reset buffer at out since item was consumed
     }
     out = ++out % BUFFER_SIZE;
-    // PrintQueue(RunQ);
     
     V(empty);
     yield();
+  }
+  
+  TCB_t* item = DelQueue(RunQ);
+  if (!isQueueEmpty(RunQ)) {
+    swapcontext(&(item->context), &(RunQ->head->context));
   }
 }
