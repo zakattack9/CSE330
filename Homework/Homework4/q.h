@@ -9,7 +9,6 @@ typedef struct Queue {
   TCB_t* tail;
 } Queue;
 
-TCB_t* NewItem(ucontext_t context);
 Queue* InitQueue();
 void AddQueue(Queue* queue, TCB_t* qEl);
 TCB_t* DelQueue(Queue* queue);
@@ -35,9 +34,9 @@ void AddQueue(Queue* queue, TCB_t* qEl) {
 
 TCB_t* DelQueue(Queue* queue) {
   if (!isQueueEmpty(queue)) {
-    TCB_t* delQEl = (TCB_t*) malloc(sizeof(TCB_t));
-    delQEl = queue->head;
-    // TCB_t* delQEl = queue->head;
+    // TCB_t* delQEl = (TCB_t*) malloc(sizeof(TCB_t));
+    // delQEl = queue->head;
+    TCB_t* delQEl = queue->head;
     if (queue->head == queue->tail) {
       queue->head = queue->tail = NULL;
     } else {
@@ -55,14 +54,14 @@ void RotateQueue(Queue* queue) {
   }
 }
 
-void PrintQueue(Queue* queue) {
-  TCB_t* temp = queue->head;
-  while(temp->next) {
-    printf("%d ", temp->threadID);
-    temp = temp->next;
-  }
-  printf("%d\n", temp->threadID);
-}
+// void PrintQueue(Queue* queue) {
+//   TCB_t* temp = queue->head;
+//   while(temp->next) {
+//     printf("%d ", temp->threadID);
+//     temp = temp->next;
+//   }
+//   printf("%d\n", temp->threadID);
+// }
 
 int isQueueEmpty(Queue* queue) {
   if (queue->head == NULL) return 1;
