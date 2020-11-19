@@ -16,15 +16,9 @@ void P(Sem* semaphore) {
   while (1) {
     if (semaphore->val <= 0) {
       TCB_t* item = DelQueue(RunQ);
-      if (item->threadID > 0) {
-        printf("\nProducer %d is waiting\n", item->threadID);
-      } else if (item->threadID < 0) {
-        printf("\nConsumer %d is waiting\n", -item->threadID);
-      }
-
       AddQueue(semaphore->SemQ, item);
       if (isQueueEmpty(RunQ)) exit(0);
-      swapcontext(&(item->context), &(RunQ->head->context)); // must do swapcontext since yield would rotate the new thread to the back of queue
+      swapcontext(&(item->context), &(RunQ->head->context));
     } else {
       semaphore->val--;
       return;

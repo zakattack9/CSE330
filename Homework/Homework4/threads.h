@@ -1,13 +1,13 @@
 #include "q.h"
 
-Queue* RunQ; // main thread queue
+Queue* RunQ;
 
 // creates a thread stack and its to the queue
-void start_thread(void (*function)(int, int), int threadID) {
+void start_thread(void (*function)(int, int)) {
   int stack_size = 8192; // set stack size
   void* stackP = malloc(stack_size); // allocate a stack (via malloc) of a certain size
   TCB_t* tcb = (TCB_t*) malloc(sizeof(TCB_t)); // allocate a TCB (via malloc)
-  init_TCB(tcb, function, stackP, stack_size, threadID); // call init_TCB with appropriate arguments
+  init_TCB(tcb, function, stackP, stack_size); // call init_TCB with appropriate arguments
   AddQueue(RunQ, tcb); // call addQ to add this TCB into the “RunQ” which is a global header pointer
 }
 
