@@ -24,7 +24,7 @@ void P(Sem* semaphore) {
 
       AddQueue(semaphore->SemQ, item);
       if (isQueueEmpty(RunQ)) exit(0);
-      swapcontext(&(item->context), &(RunQ->head->context)); // must do swapcontext since yield would rotate the new thread to the back of queue
+      swapcontext(&(semaphore->SemQ->tail->context), &(RunQ->head->context)); // must do swapcontext since yield would rotate the new thread to the back of queue
     } else {
       semaphore->val--;
       return;
