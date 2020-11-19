@@ -18,7 +18,7 @@ void P(Sem* semaphore) {
       TCB_t* item = DelQueue(RunQ);
       AddQueue(semaphore->SemQ, item);
       if (isQueueEmpty(RunQ)) exit(0);
-      swapcontext(&(item->context), &(RunQ->head->context));
+      swapcontext(&(semaphore->SemQ->tail->context), &(RunQ->head->context));
     } else {
       semaphore->val--;
       return;
@@ -27,7 +27,7 @@ void P(Sem* semaphore) {
 }
 
 void V(Sem* semaphore) {
-  if (semaphore->val <= 0 && !isQueueEmpty(semaphore->SemQ)) {
+  if (!isQueueEmpty(semaphore->SemQ)) {
     TCB_t* item = DelQueue(semaphore->SemQ);
     AddQueue(RunQ, item);
   }

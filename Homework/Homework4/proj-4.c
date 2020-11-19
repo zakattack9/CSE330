@@ -76,9 +76,7 @@ void writer(int writerID) {
 
   wc--;
   if (rwc > 0) {
-    for (int j = 0; j < rwc; j++) {
-      V(R_Sem);
-    }
+    for (int j = 0; j < rwc; j++) V(R_Sem);
   } else if (wwc > 0) {
     V(W_Sem);
   }
