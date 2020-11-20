@@ -96,9 +96,9 @@ HOW IT WORKS:
 
 For Readers:
 - upon reader entry, it should check if there are any writers or any waiting writers; if there are any writers or waiting writers then wait, else enter scratchpad
-- if a reader is in scratchpad, after it exits, it prioritizes allowing waiting writers to execute to prevent starvation of writers by multiple readers
+- once a reader exits scratchpad, it prioritizes allowing waiting writers to execute to prevent starvation of writers by multiple readers
 
 For Writers:
 - upon writer entry, checks for any readers or writers in the scratchpad as well as any readers or writers that are waiting; if any of these conditions are true then the writer waits, else it enters the scratchpad
-- once a writer exits, it prioritizes allowing ALL waiting readers to execute effectively unblocking all waiting readers from execution; this id done to prevent starvation of readers
+- once a writer exits scratchpad, it prioritizes allowing ALL waiting readers to execute effectively unblocking all waiting readers from execution; this id done to prevent starvation of readers
 */
